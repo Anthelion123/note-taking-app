@@ -32,7 +32,7 @@ const AppBar = styled(MuiAppBar, {shouldForwardProp: (prop) => prop !== 'open',}
     }),
   }));
 
-export default function DocAppBar ({open, toggleDrawer, pomoState, playPause, stopHandle}) {
+export default function DocAppBar ({open, toggleDrawer, pomoState, playPause, stopHandle, title}) {
   
     return (
       <AppBar position="absolute" open={open}>
@@ -60,7 +60,7 @@ export default function DocAppBar ({open, toggleDrawer, pomoState, playPause, st
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            Title
+            {title}
           </Typography>
           <IconButton
             color="inherit"

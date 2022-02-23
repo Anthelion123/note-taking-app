@@ -21,17 +21,27 @@ export default function Documents({match}) {
     title: '',
     content: '',
     pdfLink: '',
-    // pomoLeft: 0,
+    pomoLeft: 0,
     id: ''
   });
   const [pomoState, setPomoState] = React.useState({
     timerRun: false,
     session: null,
     timeRemaining: null,
-    pomoCount: 3,
+    pomoCount: 0,
   });
   const history = useHistory();
-  React.useEffect(() =>{
+
+  React.useEffect(() => {
+    setPomoState((prevState) => {
+      return{
+        ...prevState,
+        pomoCount: note.pomoLeft,
+      };
+    })
+  }, [note.pomoLeft])
+
+  React.useEffect(() => {
     const getNote = async () =>{
         const token = localStorage.getItem('tokenStore')
         if(token){
@@ -42,10 +52,10 @@ export default function Documents({match}) {
                 title: res.data.title,
                 content: res.data.content,
                 pdfLink: res.data.pdfLink,
-                // pomoLeft: res.data.pomoLeft,
+                pomoLeft: res.data.pomoLeft,
                 id: res.data._id
             })
-            // setPomoState({ pomoCount: res.data.pomoLeft })
+            
         }
     }
     getNote()
@@ -159,7 +169,8 @@ export default function Documents({match}) {
           toggleDrawer={toggleDrawer}
           playPause={playPause}
           pomoState={pomoState}
-          stopHandle={stopHandle}   
+          stopHandle={stopHandle}
+          title={note.title}   
         />
         <DocDrawer 
           open={open} 

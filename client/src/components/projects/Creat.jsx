@@ -63,6 +63,7 @@ const onChangeInput = e => {
 
 const createNote = async e => {
     e.preventDefault()
+    handleClose()
     try {
         const token = localStorage.getItem('tokenStore')
         if(token){
@@ -154,21 +155,21 @@ const createNote = async e => {
               </div>
             </Grid>
             <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
-              {/* <Button
+              <Button
                 variant="contained"
                 sx={{ mt: 5, ml: 1 }}
                 onClick={createNote}
               >
                 Sumbit
-              </Button> */}
-              <Link 
+              </Button>
+              {/* <Link 
                 to={`/`} 
                 variant="contained"
                 sx={{ mt: 5, ml: 1 }}
                 onClick={createNote}
               >
                 Submit
-              </Link>
+              </Link> */}
             </Box>
           </Box>
         </Fade>
