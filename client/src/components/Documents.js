@@ -14,8 +14,8 @@ import DocPdf from './documents/DocPdf';
 import useInterval from "../utils/useInterval";
 
 const mdTheme = createTheme();
-// export default function Documents({match}) {
-export default function Documents() {
+export default function Documents({match}) {
+// export default function Documents() {
 
   const [open, setOpen] = React.useState(false);
   const [pomoState, setPomoState] = React.useState({
@@ -28,40 +28,37 @@ export default function Documents() {
     title: '',
     content: '',
     pdfLink: '',
-    id: '6213f2f9efe924c66679e944'
+    id: ''
   });
 
   const history = useHistory();
   React.useEffect(() =>{
     const getNote = async () =>{
-        // const token = localStorage.getItem('tokenStore')
-        // if(true){
-        //     // const res = await axios.get(`/api/notes/${match.params.id}`, {
-        //     //     // headers: {Authorization: token}
-        //     // })
-        //     const res = await axios.get(`/api/notes/6213f2f9efe924c66679e944`
-        //         // headers: {Authorization: token}
-        //     )
-        //     setNote({
-        //         title: res.data.title,
-        //         content: res.data.content,
-        //         pdfLink: res.data.pdfLink,
-        //         id: res.data._id
-        //     })
-        // }
-        const res = await axios.get(`/api/notes/6213f2f9efe924c66679e944`
-        // headers: {Authorization: token}
-        )
-        setNote({
-            title: res.data.title,
-            content: res.data.content,
-            pdfLink: res.data.pdfLink,
-            id: res.data._id
-        })
+        const token = localStorage.getItem('tokenStore')
+        if(token){
+            const res = await axios.get(`/api/notes/${match.params.id}`, {
+                headers: {Authorization: token}
+            })
+            setNote({
+                title: res.data.title,
+                content: res.data.content,
+                pdfLink: res.data.pdfLink,
+                id: res.data._id
+            })
+        }
+        // const res = await axios.get(`/api/notes/6213f2f9efe924c66679e944`
+        // // headers: {Authorization: token}
+        // )
+        // setNote({
+        //     title: res.data.title,
+        //     content: res.data.content,
+        //     pdfLink: res.data.pdfLink,
+        //     id: res.data._id
+        // })
     }
     getNote()
-    }, note.id)
-//   },[match.params.id])
+    // }, note.id)
+  },[match.params.id])
 
   const onChangeInput = e => {
     const {name, value} = e.target;
@@ -70,15 +67,15 @@ export default function Documents() {
   const editNote = async e => {
     e.preventDefault()
     try {
-        // const token = localStorage.getItem('tokenStore')
-        if(true){
+        const token = localStorage.getItem('tokenStore')
+        if(token){
             const {title, content, id} = note;
             const newNote = {
                 title, content
             }
 
             await axios.put(`/api/notes/${id}`, newNote, {
-                // headers: {Authorization: token}
+                headers: {Authorization: token}
             })
             
             return history.push('/')

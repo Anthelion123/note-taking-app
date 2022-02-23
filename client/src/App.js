@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios'
 import Login from './components/Login'
-// import Notes from './components/Notes'
+import Notes from './components/Notes'
 
 
 function App() {
@@ -26,7 +26,11 @@ function App() {
 
   return (
     <div className="App">
-        <Login setIsLogin={setIsLogin} />
+      {
+        isLogin 
+        ? <Notes setIsLogin={setIsLogin} /> 
+        : <Login setIsLogin={setIsLogin} />
+      }
     </div>
   );
 }
