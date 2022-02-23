@@ -80,7 +80,7 @@ export default function DocAppBar ({open, toggleDrawer, pomoState, playPause, st
             color="inherit"
             aria-label="pomodoros"
           >
-            <Badge badgeContent={pomoState.pomoCount} color="error">
+            <Badge badgeContent={pomoState.pomoLeft} color="error">
               {pomoState.session === "Focus" ? <TimerIcon /> : <TimerOffIcon />}
             </Badge>     
           </IconButton>

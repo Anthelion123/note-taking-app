@@ -16,9 +16,8 @@ import AddIcon from '@mui/icons-material/Add';
 import DatePicker from '@mui/lab/DatePicker';
 
 import axios from 'axios';
-import {useHistory} from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { Document, pdfjs } from 'react-pdf';
-
 
 const corsurl = "https://cors-anywhere.herokuapp.com/"
 const readingSpeed = 2
@@ -149,17 +148,27 @@ const createNote = async e => {
                   renderInput={(params) => <TextField {...params} />}
                 />
               </Grid>
-              <Document file={corsurl+note.pdfLink} onLoadSuccess={onDocumentLoadSuccess}>
-              </Document>
+              <div className="Transparent" style={{ display: "none" }}>
+                <Document file={corsurl+note.pdfLink} onLoadSuccess={onDocumentLoadSuccess}>
+                </Document>
+              </div>
             </Grid>
             <Box sx={{ mt: 1, display: 'flex', justifyContent: 'flex-end' }}>
-              <Button
+              {/* <Button
                 variant="contained"
                 sx={{ mt: 5, ml: 1 }}
                 onClick={createNote}
               >
                 Sumbit
-              </Button>
+              </Button> */}
+              <Link 
+                to={`/`} 
+                variant="contained"
+                sx={{ mt: 5, ml: 1 }}
+                onClick={createNote}
+              >
+                Submit
+              </Link>
             </Box>
           </Box>
         </Fade>

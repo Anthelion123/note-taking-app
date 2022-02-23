@@ -1,15 +1,35 @@
-import React, {useState} from 'react'
+import { useState, useContext } from 'react'
 import axios from 'axios';
+import CssBaseline from '@mui/material/CssBaseline';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Link from '@mui/material/Link';
 import SignIn from './login/SignIn';
 import SignUp from './login/SignUp';
+import { ThemeContext } from '../App'
+
+function Copyright(props) {
+    return (
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        {'Copyright © '}
+        <Link color="inherit" href="https://mui.com/">
+          Your Website
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    );
+}
 
 export default function Login({setIsLogin}) {
+
     const [user, setUser] = useState({
-        name: '',
+        username: '',
         email: '',
-        password: '' 
+        password: '',
     })
     const [err, setErr] = useState('')
+    const [onLogin, setOnLogin] = useState(true)
 
     const onChangeInput = e =>{
         const {name, value} = e.target;
@@ -24,7 +44,7 @@ export default function Login({setIsLogin}) {
                 email: user.email,
                 password: user.password
             })
-            setUser({name: '', email: '', password: ''})
+            setUser({username: '', email: '', password: ''})
             localStorage.setItem('tokenStore', res.data.token)
             setIsLogin(true)
         } catch (err) {
@@ -36,59 +56,35 @@ export default function Login({setIsLogin}) {
         e.preventDefault()
         try {
             const res = await axios.post('/users/register',{
-                username: user.name,
+                username: user.username,
                 email: user.email,
                 password: user.password
             })
-            setUser({name: '', email: '', password: ''})
+            setUser({username: '', email: '', password: ''})
             setErr(res.data.msg)
         } catch (err) {
             err.response.data.msg && setErr(err.response.data.msg)
         }
     }
 
-    const [onLogin, setOnLogin] = useState(true)
-    const style = {
-        visibility: onLogin ? "visible" : "hidden",
-        opacity: onLogin ? 1 : 0
-    }
-
     return (
-       <section className="login-page">
-           <div className="login create-note">
-                {onLogin ? 
-                    <SignIn
-                        email={user.email}
-                        password={user.password}
-                        loginSubmit={loginSubmit}
-                        onChangeInput={onChangeInput}
-                        setOnLogin={setOnLogin}
-                    /> : 
-                    <SignUp/>
-                }
-           </div>
-           {/* <div className="register create-note" style={style}>
-           <h2>Join us!</h2>
-                <form onSubmit={registerSubmit}>
-                    <input type="text" name="name" id="register-name"
-                    placeholder="User Name" required value={user.name}
-                    onChange={onChangeInput} />
-
-                    <input type="email" name="email" id="register-email"
-                    placeholder="Email" required value={user.email}
-                    onChange={onChangeInput} />
-
-                    <input type="password" name="password" id="register-password"
-                    placeholder="Password" required value={user.password}
-                    autoComplete="true" onChange={onChangeInput} />
-
-                    <button type="submit">Register</button>
-                    <p>Already had an account?
-                        <span onClick={() => setOnLogin(true)}> Login Here</span>
-                    </p>
-                    <h3>{err}</h3>
-                </form>
-           </div> */}
-       </section>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />    
+            {onLogin 
+            ? <SignIn
+                user={user}
+                loginSubmit={loginSubmit}
+                onChangeInput={onChangeInput}
+                setOnLogin={setOnLogin}
+              /> 
+            : <SignUp
+                user={user}
+                registerSubmit={registerSubmit}
+                onChangeInput={onChangeInput}
+                setOnLogin={setOnLogin}
+              />
+            }
+          <Copyright sx={{ mt: 5 }} />
+        </Container>
     )
 }

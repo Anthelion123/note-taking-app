@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom'
-// import {format} from 'timeago.js'
+// import { format } from 'timeago.js'
 import axios from 'axios'
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -46,25 +46,6 @@ export default function Projects() {
           window.location.href = "/";
       }
   }
-
-
-  // const getNotes = async () =>{
-  //   const res = await axios.get('api/notes')
-  //   setNotes(res.data)
-  // }
-
-  // React.useEffect(() =>{
-  //         getNotes()
-  // }, [])
-
-  // const deleteNote = async (id) =>{
-  //     try {
-  //           await axios.delete(`api/notes/${id}`)
-  //           getNotes()
-  //     } catch (error) {
-  //         window.location.href = "/";
-  //     }
-  // }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

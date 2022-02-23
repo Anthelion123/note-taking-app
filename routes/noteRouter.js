@@ -11,13 +11,4 @@ router.route('/:id')
     .put(auth, noteCtrl.updateNote)
     .delete(auth, noteCtrl.deleteNote)
 
-// router.route('/')
-//     .get(noteCtrl.getNotes)
-//     .post(noteCtrl.createNote)
-
-// router.route('/:id')
-//     .get(noteCtrl.getNote)
-//     .put(noteCtrl.updateNote)
-//     .delete(noteCtrl.deleteNote)
-
 module.exports = router

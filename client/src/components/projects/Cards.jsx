@@ -34,7 +34,7 @@ function Cards({notes, deleteNote}) {
               </CardContent>
               <CardActions>
                 {/* <Button size="small" to={`edit/${note._id}`}>View</Button> */}
-                <Link to={`edit/${note._id}`} >Review</Link>
+                <Link to={`edit/${note._id}`} >View</Link>
                 <Button size="small" onClick={() => deleteNote(note._id)}>Delete</Button>
               </CardActions>
             </Card>

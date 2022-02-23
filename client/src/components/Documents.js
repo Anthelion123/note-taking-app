@@ -15,22 +15,21 @@ import useInterval from "../utils/useInterval";
 
 const mdTheme = createTheme();
 export default function Documents({match}) {
-// export default function Documents() {
 
   const [open, setOpen] = React.useState(false);
-  const [pomoState, setPomoState] = React.useState({
-    timerRun: false,
-    session: null,
-    timeRemaining: null,
-    pomoCount: 3,
-  });
   const [note, setNote] = React.useState({
     title: '',
     content: '',
     pdfLink: '',
+    pomoLeft: 0,
     id: ''
   });
-
+  const [pomoState, setPomoState] = React.useState({
+    timerRun: false,
+    session: null,
+    timeRemaining: null,
+    pomoCount: 0,
+  });
   const history = useHistory();
   React.useEffect(() =>{
     const getNote = async () =>{
@@ -43,21 +42,13 @@ export default function Documents({match}) {
                 title: res.data.title,
                 content: res.data.content,
                 pdfLink: res.data.pdfLink,
+                pomoLeft: res.data.pomoLeft,
                 id: res.data._id
             })
+            setPomoState({ pomoCount: res.data.pomoLeft })
         }
-        // const res = await axios.get(`/api/notes/6213f2f9efe924c66679e944`
-        // // headers: {Authorization: token}
-        // )
-        // setNote({
-        //     title: res.data.title,
-        //     content: res.data.content,
-        //     pdfLink: res.data.pdfLink,
-        //     id: res.data._id
-        // })
     }
     getNote()
-    // }, note.id)
   },[match.params.id])
 
   const onChangeInput = e => {
@@ -69,9 +60,11 @@ export default function Documents({match}) {
     try {
         const token = localStorage.getItem('tokenStore')
         if(token){
-            const {title, content, id} = note;
+            const {title, content, pomoLeft, id} = note;
             const newNote = {
-                title, content
+                title, 
+                content, 
+                pomoLeft: pomoState.pomoCount
             }
 
             await axios.put(`/api/notes/${id}`, newNote, {

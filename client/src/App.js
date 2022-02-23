@@ -3,7 +3,6 @@ import axios from 'axios'
 import Login from './components/Login'
 import Notes from './components/Notes'
 
-
 function App() {
   const [isLogin, setIsLogin] = useState(false)
 
@@ -25,11 +24,10 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
-      {
-        isLogin 
-        ? <Notes setIsLogin={setIsLogin} /> 
-        : <Login setIsLogin={setIsLogin} />
+    <div>
+      {isLogin 
+      ? <Notes setIsLogin={setIsLogin} /> 
+      : <Login setIsLogin={setIsLogin} />
       }
     </div>
   );

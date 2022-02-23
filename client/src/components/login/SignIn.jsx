@@ -1,39 +1,20 @@
 import * as React from 'react';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
-
-export default function SignIn({email, password, loginSubmit, onChangeInput, setOnLogin}) {
+export default function SignIn({user, loginSubmit, onChangeInput, setOnLogin}) {
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
@@ -56,7 +37,7 @@ export default function SignIn({email, password, loginSubmit, onChangeInput, set
               id="email"
               label="Email Address"
               name="email"
-              value={email}
+              value={user.email}
               autoComplete="email"
               autoFocus
               onChange={onChangeInput}
@@ -66,7 +47,7 @@ export default function SignIn({email, password, loginSubmit, onChangeInput, set
               required
               fullWidth
               name="password"
-              value={password}
+              value={user.password}
               label="Password"
               type="password"
               id="password"
@@ -99,8 +80,5 @@ export default function SignIn({email, password, loginSubmit, onChangeInput, set
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
   );
 }
