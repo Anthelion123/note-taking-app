@@ -21,14 +21,14 @@ export default function Documents({match}) {
     title: '',
     content: '',
     pdfLink: '',
-    pomoLeft: 0,
+    // pomoLeft: 0,
     id: ''
   });
   const [pomoState, setPomoState] = React.useState({
     timerRun: false,
     session: null,
     timeRemaining: null,
-    pomoCount: 0,
+    pomoCount: 3,
   });
   const history = useHistory();
   React.useEffect(() =>{
@@ -42,10 +42,10 @@ export default function Documents({match}) {
                 title: res.data.title,
                 content: res.data.content,
                 pdfLink: res.data.pdfLink,
-                pomoLeft: res.data.pomoLeft,
+                // pomoLeft: res.data.pomoLeft,
                 id: res.data._id
             })
-            setPomoState({ pomoCount: res.data.pomoLeft })
+            // setPomoState({ pomoCount: res.data.pomoLeft })
         }
     }
     getNote()
@@ -60,11 +60,11 @@ export default function Documents({match}) {
     try {
         const token = localStorage.getItem('tokenStore')
         if(token){
-            const {title, content, pomoLeft, id} = note;
+            const {title, content, id} = note;
             const newNote = {
                 title, 
                 content, 
-                pomoLeft: pomoState.pomoCount
+                // pomoLeft: pomoState.pomoCount
             }
 
             await axios.put(`/api/notes/${id}`, newNote, {
