@@ -34,6 +34,12 @@ export default function Projects() {
       }
   }, [])
 
+  function updateNotes() {
+      if(token){
+        getNotes(token)
+      }
+  }
+
   const deleteNote = async (id) =>{
       try {
           if(token){
@@ -56,6 +62,7 @@ export default function Projects() {
           <Cards
             notes={notes}
             deleteNote={deleteNote}
+            updateNotes={updateNotes}
           />
         </main>
         <Footer/>

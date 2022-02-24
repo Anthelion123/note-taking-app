@@ -11,13 +11,13 @@ import {Link} from 'react-router-dom'
 
 import Creat from './Creat';
 
-function Cards({notes, deleteNote}) {
+function Cards({notes, deleteNote, updateNotes}) {
   
   return (
     <Container sx={{ py: 8 }} maxWidth="md">
       <Grid container spacing={4}>
         <Grid item xs={12} sm={6} md={4} sx={{alignItems: 'stretch'}}>
-          <Creat />
+          <Creat updateNotes={updateNotes} />
         </Grid>
         {notes.map((note) => (
           <Grid item key={note} xs={12} sm={6} md={4}>

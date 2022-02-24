@@ -24,7 +24,7 @@ const noteSchema = new mongoose.Schema({
     },
     pomoLeft: {
         type: Number,
-        default: 0
+        default: 5
     },
     user_id: {
         type: String,

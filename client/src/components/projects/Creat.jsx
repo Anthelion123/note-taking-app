@@ -34,7 +34,7 @@ const style = {
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-export default function Creat() {
+export default function Creat({updateNotes}) {
   const [open, setOpen] = React.useState(false);
   // const [value, setValue] = React.useState(null);
   const handleOpen = () => setOpen(true);
@@ -75,12 +75,13 @@ const createNote = async e => {
             await axios.post('/api/notes', newNote, {
                 headers: {Authorization: token}
             })
-            
+            updateNotes()
             return history.push('/')
         }
     } catch (err) {
         window.location.href = "/";
     }
+    
 }
 
   return (
