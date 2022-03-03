@@ -45,44 +45,52 @@ export default function Creat({updateNotes}) {
     pdfLink: '',
     pageCount: 0,
     pomoLeft: 0,
-})
-const history = useHistory()
+  })
+  const [pomoState, setPomoState] = React.useState({
+    pomoCount: 0,
+  })
 
-function onDocumentLoadSuccess({ numPages }) {
-    setNote({...note, 
-      ["pageCount"]: numPages, 
-      ["pomoLeft"]: Math.ceil(numPages/readingSpeed)
-    });
-}
+  const history = useHistory()
 
-const onChangeInput = e => {
-    const {name, value} = e.target;
-    setNote({...note, [name]:value})
-}
+  function onDocumentLoadSuccess({ numPages }) {
+      setNote({...note, 
+        ["pageCount"]: numPages, 
+        ["pomoLeft"]: Math.ceil(numPages/readingSpeed)
+      });
+      setPomoState({...pomoState, 
+        pomoCount: Math.ceil(numPages/readingSpeed)
+      })
+  }
+
+  const onChangeInput = e => {
+      const {name, value} = e.target;
+      setNote({...note, [name]:value})
+  }
 
 
-const createNote = async e => {
-    e.preventDefault()
-    handleClose()
-    try {
-        const token = localStorage.getItem('tokenStore')
-        if(token){
-            const {title, date, pdfLink, pageCount, pomoLeft} = note;
-            const newNote = {
-                title, date, pdfLink, pageCount, pomoLeft
-            }
-
-            await axios.post('/api/notes', newNote, {
-                headers: {Authorization: token}
-            })
-            updateNotes()
-            return history.push('/')
-        }
-    } catch (err) {
-        window.location.href = "/";
-    }
-    
-}
+  const createNote = async e => {
+      e.preventDefault()
+      handleClose()
+      try {
+          const token = localStorage.getItem('tokenStore')
+          if(token){
+              const {title, date, pdfLink, pageCount, pomoLeft} = note;
+              const newNote = {
+                  title, date, pdfLink, pageCount, pomoLeft
+              }
+              const {pomoCount} = pomoState;
+              const newPomoState = { pomoCount }
+              await axios.post('/api/notes', {"note": newNote, "pomo": newPomoState}, {
+                  headers: {Authorization: token}
+              })
+              updateNotes()
+              return history.push('/')
+          }
+      } catch (err) {
+          window.location.href = "/";
+      }
+      
+  }
 
   return (
     <div style={{height: '100%'}}>

@@ -12,6 +12,7 @@ import DocProgress from './documents/DocProgress';
 import DocPdf from './documents/DocPdf';
 
 import useInterval from "../utils/useInterval";
+import { red } from '@mui/material/colors';
 
 const mdTheme = createTheme();
 export default function Documents({match}) {
@@ -29,31 +30,38 @@ export default function Documents({match}) {
     session: null,
     timeRemaining: null,
     pomoCount: 0,
+    focusDuration: 0,
+    breakDuration: 0
   });
   const history = useHistory();
 
-  React.useEffect(() => {
-    setPomoState((prevState) => {
-      return{
-        ...prevState,
-        pomoCount: note.pomoLeft,
-      };
-    })
-  }, [note.pomoLeft])
+  // React.useEffect(() => {
+  //   setPomoState((prevState) => {
+  //     return{
+  //       ...prevState,
+  //       pomoCount: note.pomoLeft,
+  //     };
+  //   })
+  // }, [note.pomoLeft])
 
   React.useEffect(() => {
     const getNote = async () =>{
         const token = localStorage.getItem('tokenStore')
         if(token){
             const res = await axios.get(`/api/notes/${match.params.id}`, {
-                headers: {Authorization: token}
+              headers: {Authorization: token}
             })
             setNote({
-                title: res.data.title,
-                content: res.data.content,
-                pdfLink: res.data.pdfLink,
-                pomoLeft: res.data.pomoLeft,
-                id: res.data._id
+              title: res.data.note.title,
+              content: res.data.note.content,
+              pdfLink: res.data.note.pdfLink,
+              pomoLeft: res.data.note.pomoLeft,
+              id: res.data.note._id
+            }) 
+            setPomoState({...pomoState,
+              pomoCount: res.data.pomo.pomoCount,
+              focusDuration: res.data.pomo.focusDuration,
+              breakDuration: res.data.pomo.breakDuration
             })
             
         }
@@ -76,8 +84,11 @@ export default function Documents({match}) {
                 content, 
                 // pomoLeft: pomoState.pomoCount
             }
-
-            await axios.put(`/api/notes/${id}`, newNote, {
+            const {pomoCount} = pomoState;
+            const newPomoState = {
+              pomoCount,
+            }
+            await axios.put(`/api/notes/${id}`, {"note": newNote, "pomo": newPomoState}, {
                 headers: {Authorization: token}
             })
             
@@ -87,9 +98,6 @@ export default function Documents({match}) {
         window.location.href = "/";
     }
   }
-
-  const focusDuration = 5;
-  const breakDuration = 5;
 
   function toggleDrawer() {
     setOpen(!open);
@@ -104,7 +112,7 @@ export default function Documents({match}) {
             ...prevState,
             timerRun: nextTimerRun,
             session: 'Focus',
-            timeRemaining: focusDuration * 60,
+            timeRemaining: prevState.focusDuration * 60,
           };
         }
       }
@@ -134,14 +142,14 @@ export default function Documents({match}) {
           return {
             ...prevState,
             session: 'Break',
-            timeRemaining: breakDuration * 60,
+            timeRemaining: prevState.breakDuration * 60,
             pomoCount: prevState.pomoCount--,
           }
         } else {
           return {
             ...prevState,
             session: 'Focus',
-            timeRemaining: focusDuration * 60,
+            timeRemaining: prevState.focusDuration * 60,
           }
         }
       });
@@ -192,8 +200,8 @@ export default function Documents({match}) {
           <Toolbar />
           <DocProgress 
             pomoState={pomoState}
-            focusDuration={focusDuration}
-            breakDuration={breakDuration}
+            // focusDuration={pomoState.focusDuration}
+            // breakDuration={pomoState.breakDuration}
           />
           <DocPdf 
             title={note.title}
