@@ -12,22 +12,22 @@ const noteCtrl = {
     },
     createNote: async(req, res) =>{
         try {
-            const {title, content, date, pdfLink, pageCount, pomoLeft} = req.body.note;
+            const {title, content, date, pdfLink, pageCount, pomoCount} = req.body.note;
             const newNote = new Notes({
                 title,
                 content,
                 date,
                 pdfLink,
                 pageCount,
-                pomoLeft,
+                pomoCount,
                 user_id: req.user.id,
                 name: req.user.name
             })
             await newNote.save()
 
-            const {pomoCount, focusDuration, breakDuration} = req.body.pomo;
+            const {pomoLeft, focusDuration, breakDuration} = req.body.pomo;
             const newPomo = new Pomos({
-                pomoCount,
+                pomoLeft,
                 focusDuration,
                 breakDuration,
                 note_id: newNote.id,
@@ -58,9 +58,9 @@ const noteCtrl = {
                 date,
             })
             
-            const {pomoCount} = req.body.pomo;
+            const {pomoLeft} = req.body.pomo;
             await Pomos.findOneAndUpdate({note_id: req.params.id}, {
-                pomoCount
+                pomoLeft
             })
             
             res.json({msg: "Updated a Note"})

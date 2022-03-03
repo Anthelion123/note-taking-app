@@ -22,7 +22,7 @@ const noteSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    pomoLeft: {
+    pomoCount: {
         type: Number,
         default: 5
     },

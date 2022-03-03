@@ -15,7 +15,6 @@ export default function DocProgress({pomoState}) {
           color={(pomoState.session === 'Focus') ? 'error' : 'info'}
           value={
             100 - (100 * pomoState.timeRemaining / 60) /
-            // 100 - (100 * 10 / 60) /
             (pomoState.session === "Focus" ? pomoState.focusDuration : pomoState.breakDuration)
           } 
         />
@@ -27,7 +26,6 @@ export default function DocProgress({pomoState}) {
           sx={{pr: 1,}}
         >
           {secondsToDuration(pomoState.timeRemaining)}
-          {/* {secondsToDuration(10)} */}
         </Typography>
       </Box>
     </Box>

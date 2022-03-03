@@ -44,10 +44,10 @@ export default function Creat({updateNotes}) {
     date: '',
     pdfLink: '',
     pageCount: 0,
-    pomoLeft: 0,
+    pomoCount: 0,
   })
   const [pomoState, setPomoState] = React.useState({
-    pomoCount: 0,
+    pomoLeft: 0,
   })
 
   const history = useHistory()
@@ -55,10 +55,10 @@ export default function Creat({updateNotes}) {
   function onDocumentLoadSuccess({ numPages }) {
       setNote({...note, 
         ["pageCount"]: numPages, 
-        ["pomoLeft"]: Math.ceil(numPages/readingSpeed)
+        ["pomoCount"]: Math.ceil(numPages/readingSpeed)
       });
       setPomoState({...pomoState, 
-        pomoCount: Math.ceil(numPages/readingSpeed)
+        pomoLeft: Math.ceil(numPages/readingSpeed)
       })
   }
 
@@ -74,12 +74,12 @@ export default function Creat({updateNotes}) {
       try {
           const token = localStorage.getItem('tokenStore')
           if(token){
-              const {title, date, pdfLink, pageCount, pomoLeft} = note;
+              const {title, date, pdfLink, pageCount, pomoCount} = note;
               const newNote = {
-                  title, date, pdfLink, pageCount, pomoLeft
+                  title, date, pdfLink, pageCount, pomoCount
               }
-              const {pomoCount} = pomoState;
-              const newPomoState = { pomoCount }
+              const {pomoLeft} = pomoState;
+              const newPomoState = { pomoLeft }
               await axios.post('/api/notes', {"note": newNote, "pomo": newPomoState}, {
                   headers: {Authorization: token}
               })

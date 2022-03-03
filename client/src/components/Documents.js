@@ -22,14 +22,14 @@ export default function Documents({match}) {
     title: '',
     content: '',
     pdfLink: '',
-    pomoLeft: 0,
+    pomoCount: 0,
     id: ''
   });
   const [pomoState, setPomoState] = React.useState({
     timerRun: false,
     session: null,
     timeRemaining: null,
-    pomoCount: 0,
+    pomoLeft: 0,
     focusDuration: 0,
     breakDuration: 0
   });
@@ -39,10 +39,10 @@ export default function Documents({match}) {
   //   setPomoState((prevState) => {
   //     return{
   //       ...prevState,
-  //       pomoCount: note.pomoLeft,
+  //       pomoLeft: note.pomoCount,
   //     };
   //   })
-  // }, [note.pomoLeft])
+  // }, [note.pomoCount])
 
   React.useEffect(() => {
     const getNote = async () =>{
@@ -55,11 +55,11 @@ export default function Documents({match}) {
               title: res.data.note.title,
               content: res.data.note.content,
               pdfLink: res.data.note.pdfLink,
-              pomoLeft: res.data.note.pomoLeft,
+              pomoCount: res.data.note.pomoCount,
               id: res.data.note._id
             }) 
             setPomoState({...pomoState,
-              pomoCount: res.data.pomo.pomoCount,
+              pomoLeft: res.data.pomo.pomoLeft,
               focusDuration: res.data.pomo.focusDuration,
               breakDuration: res.data.pomo.breakDuration
             })
@@ -82,11 +82,11 @@ export default function Documents({match}) {
             const newNote = {
                 title, 
                 content, 
-                // pomoLeft: pomoState.pomoCount
+                // pomoCount: pomoState.pomoLeft
             }
-            const {pomoCount} = pomoState;
+            const {pomoLeft} = pomoState;
             const newPomoState = {
-              pomoCount,
+              pomoLeft,
             }
             await axios.put(`/api/notes/${id}`, {"note": newNote, "pomo": newPomoState}, {
                 headers: {Authorization: token}
@@ -143,7 +143,7 @@ export default function Documents({match}) {
             ...prevState,
             session: 'Break',
             timeRemaining: prevState.breakDuration * 60,
-            pomoCount: prevState.pomoCount--,
+            pomoLeft: prevState.pomoLeft--,
           }
         } else {
           return {

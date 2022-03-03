@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 
 const pomoSchema = new mongoose.Schema({
-    pomoCount:{
+    pomoLeft:{
         type: Number,
         required: true
     },
